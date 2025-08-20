@@ -1,11 +1,11 @@
 from Website import Website
-from ai.links import get_links
+import ai.links
 
-def get_all_details(homepage: Website, url: str) -> str:
+def get_all_details(homepage: Website) -> str:
     result = "Landing page:\n"
     result += homepage.get_contents()
     
-    links = get_links(homepage)
+    links = ai.links.get(homepage)
     
     print("Found links:", links)
     

@@ -20,7 +20,7 @@ def get_system_prompt() -> str:
     return system_prompt
 
 # user prompt
-def get_user_prompt(page: Website):
+def get_user_prompt(page: Website) -> str:
     user_prompt = f"Here is the list of links on the website of {page.url} - "
     user_prompt += "please decide which of these are relevant web links for a brochure about the company, respond with the full https URL in JSON format. \
 Do not include Terms of Service, Privacy, email links.\n"
@@ -30,7 +30,7 @@ Do not include Terms of Service, Privacy, email links.\n"
     return user_prompt
 
 # request call to Open AI
-def get_links(page: Website) -> str:
+def get(page: Website) -> str:
     response = api_call([
         {"role": "system", "content": get_system_prompt()},
         {"role": "user", "content": get_user_prompt(page)}

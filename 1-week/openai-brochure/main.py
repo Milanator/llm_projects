@@ -1,12 +1,12 @@
 import sys
 from utils import get_all_details
-from ai.links import get_links
 import ai.brochure
+import ai.translation
 import traceback
 from Website import Website
 
 # source venv/bin/activate
-# python 1-week/ollama-brochure/main.py <URL> 
+# python 1-week/openai-brochure/main.py <URL> 
 
 def main():
     try:
@@ -18,16 +18,20 @@ def main():
         
         homepage = Website(url)
         
-        ai_links = get_links(homepage)
+        ai_links = ai.links.get(homepage)
         
         print(f"AI links: {ai_links}")
         
-        # ai.brochure.create(url, get_all_details(homepage, url))
+        details = get_all_details(homepage)
         
-        markdown = ai.brochure.get_stream(url, get_all_details(homepage, url))
+        markdown = ai.brochure.get_stream(url, details)
         
-         # uložíme do súboru
-        with open("output.md", "w", encoding="utf-8") as f:
+        with open("1-week/openai-brochure/output-en.md", "w", encoding="utf-8") as f:
+            f.write(markdown)
+            
+        markdown = ai.translation.get_stream(markdown, 'German')
+        
+        with open("1-week/openai-brochure/output-de.md", "w", encoding="utf-8") as f:
             f.write(markdown)
         
     except Exception as e:
