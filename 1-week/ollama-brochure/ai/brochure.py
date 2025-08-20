@@ -14,7 +14,8 @@ def get_brochure_user_prompt(company_name, details):
     
     return user_prompt
 
-def create_brochure(company_name, details):
+# create brochure
+def create(company_name: str, details: str):
     response = api_call([
         {"role": "system", "content": get_system_prompt()},
         {"role": "user", "content": get_brochure_user_prompt(company_name, details)}
@@ -23,3 +24,20 @@ def create_brochure(company_name, details):
     result = response.choices[0].message.content
     
     display(Markdown(result))
+    
+    
+def get_stream(company_name: str, details: str) -> str:
+    stream = api_call([
+        {"role": "system", "content": get_system_prompt()},
+        {"role": "user", "content": get_brochure_user_prompt(company_name, details)}
+    ], False, True)
+    
+    response = ""
+    
+    # postupne čítame stream
+    for chunk in stream:
+        delta = chunk.choices[0].delta.content or ''
+        response += delta
+
+    # odstránime markdown backticky, ak chceš
+    return response.replace("```", "").replace("markdown", "")

@@ -1,7 +1,7 @@
 import sys
 from utils import get_all_details
 from ai.links import get_links
-from ai.brochure import create_brochure
+import ai.brochure
 import traceback
 from Website import Website
 
@@ -22,7 +22,13 @@ def main():
         
         print(f"AI links: {ai_links}")
         
-        create_brochure(url, get_all_details(homepage, url))
+        # ai.brochure.create(url, get_all_details(homepage, url))
+        
+        markdown = ai.brochure.get_stream(url, get_all_details(homepage, url))
+        
+         # uložíme do súboru
+        with open("output.md", "w", encoding="utf-8") as f:
+            f.write(markdown)
         
     except Exception as e:
         traceback.print_exc()

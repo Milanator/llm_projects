@@ -12,15 +12,13 @@ def check_openai_api_key():
     
     api_key = os.getenv("OPENAI_API_KEY")
     
-    if api_key and api_key.startswith('sk-proj-') and len(api_key) > 10:
-        print("API key looks good so far")
-    else:
+    if not api_key and api_key.startswith('sk-proj-') and len(api_key) > 10:
         print("There might be a problem with your API key? Please visit the troubleshooting notebook!")
         sys.exit(1)
         
     os.environ["OPENAI_API_KEY"] = api_key
 
-def api_call(messages: list, as_json: bool = False):
+def api_call(messages: list, as_json: bool = False, stream: bool = False):
     check_openai_api_key()
 
     params = {
@@ -31,5 +29,8 @@ def api_call(messages: list, as_json: bool = False):
     # ak chcem JSON, pridám response_format
     if as_json:
         params["response_format"] = {"type": "json_object"}
+        
+    if stream:
+        params["stream"] = True
     
     return OpenAI().chat.completions.create(**params)
