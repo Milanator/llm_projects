@@ -1,10 +1,9 @@
-import os
 import sys
-import parser
-import ai
+from utils import get_all_details
+from ai.links import get_links
+from ai.brochure import create_brochure
 import traceback
-from IPython.display import Markdown, display, update_display
-from openai import OpenAI
+from Website import Website
 
 # source venv/bin/activate
 # python 1-week/ollama-brochure/main.py <URL> 
@@ -17,23 +16,13 @@ def main():
         
         url = sys.argv[1]
         
-        page = parser.parse_page(url)
+        homepage = Website(url)
         
-        print("Parsing")
-        
-        title = parser.get_title(page)
-        
-        print(f"Title: {title}")
-        
-        text = parser.get_text(page)
-        
-        print(f"Text: {text}")
-        
-        links = parser.get_links(page)
-        
-        ai_links = ai.get_links({"links": links, "title": title, "url": url})
+        ai_links = get_links(homepage)
         
         print(f"AI links: {ai_links}")
+        
+        create_brochure(url, get_all_details(homepage, url))
         
     except Exception as e:
         traceback.print_exc()
