@@ -4,3 +4,4 @@ openai
 python-dotenv
 IPython
 gradio
+ollama
