@@ -2,7 +2,6 @@ import base64
 from io import BytesIO
 from PIL import Image
 from openai import OpenAI
-import gradio as gr
 from api_key import setup_gpt
 
 # python 2-week/image/main.py
