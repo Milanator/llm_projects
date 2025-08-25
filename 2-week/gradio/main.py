@@ -1,8 +1,5 @@
-import sys
-import os
 import gradio as gr
 from openai import OpenAI
-from dotenv import load_dotenv
 from api_key import setup_gpt
 
 # python 2-week/gradio/main.py
@@ -11,19 +8,24 @@ MODEL = "gpt-4o-mini"
 
 INPUTS = [gr.Textbox(label="Your message", lines=6)]
 
-OUTPUTS = [gr.Textbox(label="Response", lines=9)]
+OUTPUTS = [gr.Markdown(label="Response")]
 
 
-def call_gpt(prompt: str) -> str:
+def call_gpt(prompt: str):
     messages = [
         {"role": "system", "content": "You are a helpful assistant"},
         {"role": "user", "content": prompt},
     ]
-    completion = OpenAI().chat.completions.create(
-        model=MODEL,
-        messages=messages,
+
+    stream = OpenAI().chat.completions.create(
+        model=MODEL, messages=messages, stream=True
     )
-    return completion.choices[0].message.content
+
+    result = ""
+
+    for chunk in stream:
+        result += chunk.choices[0].delta.content or ""
+        yield result
 
 
 setup_gpt()
