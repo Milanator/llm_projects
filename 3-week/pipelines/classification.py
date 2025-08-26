@@ -2,7 +2,7 @@ from huggingface import get_access_token
 from huggingface_hub import login
 from transformers import pipeline
 
-# Text Summarization
+# Classification
 
 # source venv/bin/activate
 # python 3-week/pipelines/classification.py
