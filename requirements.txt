@@ -6,3 +6,10 @@ IPython
 gradio
 ollama
 pillow
+
+torch
+huggingface_hub
+transformers
+diffusers
+datasets
+soundfile
