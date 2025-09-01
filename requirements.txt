@@ -13,3 +13,6 @@ transformers
 diffusers
 datasets
 soundfile
+
+bitsandbytes
+accelerate

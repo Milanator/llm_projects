@@ -5,6 +5,10 @@ from transformers import AutoTokenizer
 # source venv/bin/activate
 # python 3-week/tokenizers/main.py
 
+PHI3_MODEL_NAME = "microsoft/Phi-3-mini-4k-instruct"
+QWEN2_MODEL_NAME = "Qwen/Qwen2-7B-Instruct"
+STARCODER2_MODEL_NAME = "bigcode/starcoder2-3b"
+
 MODEL = "meta-llama/Meta-Llama-3.1-8B"
 
 login(get_access_token(), add_to_git_credential=True)
